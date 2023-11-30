@@ -1,9 +1,13 @@
 import express from 'express'
 import dotenv from 'dotenv'; dotenv.config()
 import mongoose from 'mongoose'
+import UserRoute from './Routes/UserRoute.js';
 const app = express()
+app.use(express.json())
 
 
+
+// databases connetion starts herer 
 
 const DBconnect = async () => {
     try {
@@ -25,6 +29,19 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('disconnected', function () {
     logger.log('mongo db connection closed');
 })
+// databases connetion ends herer 
+
+
+// api routing starts here 
+
+app.use('/api/user',UserRoute)
+
+
+
+
+
+// api routing ends here 
+
 
 const Port = process.env.PORT || 3000
 app.listen(Port, () => {

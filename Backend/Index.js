@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'; dotenv.config()
 import mongoose from 'mongoose'
 import UserRoute from './Routes/UserRoute.js';
+import AuthRoute from './Routes/AuthRoute.js'
 const app = express()
 app.use(express.json())
 
@@ -35,6 +36,7 @@ mongoose.connection.on('disconnected', function () {
 // api routing starts here 
 
 app.use('/api/user',UserRoute)
+app.use('/api/auth',AuthRoute)
 
 
 

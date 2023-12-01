@@ -34,18 +34,16 @@ export const Signin = async (req, res, next) => {
             return next(errorHandler(404, 'user not found'))
         }
 
-        const validPass = bcrypt.compare(req.body.Password, validuser.Password)
+        const validPass = await bcrypt.compare(req.body.Password, validuser.Password)
 
         if (!validPass) {
             return next(errorHandler(401, 'invalid password'))
         }
 
+        const { Password, ...rest } = validuser._doc
         const token = jwt.sign({
             id: validuser._id
         }, process.env.JWT_TOKEN)
-
-        
-        const { Password, ...rest } = validuser._doc
 
         res.cookie('access_token', token, { maxAge: 9999, httpOnly: true })
             .status(200)

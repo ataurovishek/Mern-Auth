@@ -19,6 +19,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             SetLoading(true)
+            Seterror(false)
             const username = usernameElement.current.value;
             const email = emailElement.current.value;
             const Password = PasswordElement.current.value;
@@ -38,6 +39,7 @@ const Signup = () => {
             console.log(result)
 
             if (result.Success === false) {
+                SetLoading(false)
                 Seterror(true)
                 return
             }

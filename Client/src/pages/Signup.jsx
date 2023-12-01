@@ -1,6 +1,12 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../utils/config';
 const Signup = () => {
+
+
+    const [error, Seterror] = useState(false)
+    const [Loading, SetLoading] = useState(false)
+
 
     const Navigate = useNavigate()
 
@@ -9,26 +15,38 @@ const Signup = () => {
     const PasswordElement = useRef()
 
 
-    const HandleSubmit = (e) => {
+    const HandleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            SetLoading(true)
+            const username = usernameElement.current.value;
+            const email = emailElement.current.value;
+            const Password = PasswordElement.current.value;
 
-        const username = usernameElement.current.value;
-        const email = emailElement.current.value;
-        const Password = PasswordElement.current.value;
+            usernameElement.current.value = ''
+            emailElement.current.value = ''
+            PasswordElement.current.value = ''
 
-        usernameElement.current.value = ''
-        emailElement.current.value = ''
-        PasswordElement.current.value = ''
-
-
-        fetch('http://localhost:8080/api/auth/signup', {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                username, email, Password
+            const res = await fetch(`${BASE_URL}/auth/signup`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username, email, Password
+                })
             })
-        }).then(res => res.json()).then()
-        Navigate('/sign-in')
+            const result = await res.json();
+            console.log(result)
+
+            if (result.Success === false) {
+                Seterror(true)
+                return
+            }
+            Navigate('/sign-in')
+        } catch (err) {
+            SetLoading(false)
+            Seterror(true)
+        }
+
 
     }
 
@@ -42,13 +60,13 @@ const Signup = () => {
                 <input type="text" placeholder="username" ref={usernameElement} id="username" className="outline-none text-slate-700 bg-slate-100 p-3 rounded-md" />
                 <input type="email" placeholder="email" ref={emailElement} id="email" className="outline-none bg-slate-100 p-3 rounded-md" />
                 <input type="password" placeholder="password" ref={PasswordElement} id="password" className="outline-none bg-slate-100 p-3 rounded-md" />
-                <button className=" bg-slate-700  rounded-lg p-3 text-white uppercase hover:opacity-95"  >Signup</button>
+                <button className=" bg-slate-700  rounded-lg p-3 text-white uppercase hover:opacity-95" > {Loading ? 'Signing in' : 'Sign up'}</button>
             </form>
 
             <div className='mt-3'>
-                <p className=' text-[17px]'>Have an account? <Link to='/sign-in' className='text-blue-900'>Sign in</Link></p>
+                <p className='text-[17px]'>Have an account? <Link to='/sign-in' className='text-blue-900'>Sign In</Link></p>
             </div>
-
+            <p className='text-red-700 mt-5'>{error ? 'Something went wrong' : ''}</p>
         </div>
     );
 };

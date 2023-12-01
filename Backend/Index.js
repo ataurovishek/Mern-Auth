@@ -2,9 +2,21 @@ import express from 'express'
 import dotenv from 'dotenv'; dotenv.config()
 import mongoose from 'mongoose'
 import UserRoute from './Routes/UserRoute.js';
-import AuthRoute from './Routes/AuthRoute.js'
+import AuthRoute from './Routes/AuthRoute.js';
+import cors from 'cors';
+
+const Port = process.env.PORT || 3000
+
+
 const app = express()
 app.use(express.json())
+
+const corsOptions = {
+    origin: true,
+    credentials: true
+}
+
+app.use(cors(corsOptions))
 
 
 
@@ -56,7 +68,7 @@ app.use((err, req, res, next) => {
 
 
 
-const Port = process.env.PORT || 3000
+
 app.listen(Port, () => {
     DBconnect()
     console.log('Listenin on port' + Port)

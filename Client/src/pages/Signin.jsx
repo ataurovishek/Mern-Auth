@@ -1,15 +1,24 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../utils/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSliceActions } from '../Redux_toolkit/userSlice';
+
 const Signin = () => {
 
 
-    const [error, Seterror] = useState(false)
-    const [Loading, SetLoading] = useState(false)
+    //  useSelector for get slice 
+    const { error, Loading } = useSelector(state => state.user)
 
-
+    // dispatch method and payloads
+    const dispatch = useDispatch()
+    // usenavigate for navigation 
     const Navigate = useNavigate()
 
+    // set states
+
+
+    //  Dom references 
     const emailElement = useRef()
     const PasswordElement = useRef()
 
@@ -17,8 +26,7 @@ const Signin = () => {
     const HandleSubmit = async (e) => {
         e.preventDefault();
         try {
-            SetLoading(true)
-            Seterror(false)
+            dispatch(userSliceActions.signInStart())
 
             const email = emailElement.current.value;
             const Password = PasswordElement.current.value;
@@ -30,23 +38,21 @@ const Signin = () => {
             const res = await fetch(`${BASE_URL}/auth/signin`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                credentials:'include',
+                credentials: 'include',
                 body: JSON.stringify({
                     email,
                     Password
                 })
             })
             const result = await res.json();
-
             if (result.Success === false) {
-                SetLoading(false)
-                Seterror(true)
+                dispatch(userSliceActions.signInFailure(result.message))
                 return
             }
-            // Navigate('/')
+            dispatch(userSliceActions.signInSuccess(result))
+            Navigate('/')
         } catch (err) {
-            SetLoading(false)
-            Seterror(true)
+            dispatch(userSliceActions.signInFailure(err))
         }
 
 
@@ -67,7 +73,7 @@ const Signin = () => {
             <div className='mt-3'>
                 <p className='text-[17px]'>Dont have an account? <Link to='/sign-up' className='text-blue-900'>Sign Up</Link></p>
             </div>
-            <p className='text-red-700 mt-5'>{error ? 'Something went wrong' : ''}</p>
+            <p className='text-red-700 mt-5'>{error ? error || 'Something went wrong' : ''}</p>
         </div>
     );
 };

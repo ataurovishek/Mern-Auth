@@ -45,7 +45,7 @@ export const Signin = async (req, res, next) => {
             id: validuser._id
         }, process.env.JWT_TOKEN)
 
-        res.cookie('access_token', token, { maxAge: 9999, httpOnly: true })
+        res.cookie('access_token', token, { maxAge: 9999, httpOnly: true,sameSite: 'None', secure: true})
             .status(200)
             .json(rest)
 

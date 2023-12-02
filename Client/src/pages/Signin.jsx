@@ -30,6 +30,7 @@ const Signin = () => {
             const res = await fetch(`${BASE_URL}/auth/signin`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
+                credentials:'include',
                 body: JSON.stringify({
                     email,
                     Password
@@ -42,7 +43,7 @@ const Signin = () => {
                 Seterror(true)
                 return
             }
-            Navigate('/')
+            // Navigate('/')
         } catch (err) {
             SetLoading(false)
             Seterror(true)

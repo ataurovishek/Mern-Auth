@@ -39,8 +39,8 @@ mongoose.connection.on('error', (err) => {
 mongoose.connection.on('connected', () => {
     console.log("connection established successfully");
 });
-mongoose.connection.on('disconnected', function () {
-    logger.log('mongo db connection closed');
+mongoose.connection.on('disconnected',()=>{
+    console.log('mongo db connection closed');
 })
 // databases connetion ends herer 
 

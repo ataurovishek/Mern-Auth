@@ -18,6 +18,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    profilePicture: {
+        type: String,
+        default: 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg'
+    }
 }, { timestamps: true })
 
 const UserModel = mongoose.model('User', UserSchema)

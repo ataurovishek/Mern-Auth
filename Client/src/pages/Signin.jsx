@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { BASE_URL } from '../utils/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSliceActions } from '../Redux_toolkit/userSlice';
+import OAuth from '../components/OAuth';
 
 const Signin = () => {
 
@@ -35,7 +35,7 @@ const Signin = () => {
             emailElement.current.value = ''
             PasswordElement.current.value = ''
 
-            const res = await fetch(`${BASE_URL}/auth/signin`, {
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/signin`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 credentials: 'include',
@@ -68,6 +68,7 @@ const Signin = () => {
                 <input type="email" placeholder="email" ref={emailElement} id="email" className="outline-none bg-slate-100 p-3 rounded-md" />
                 <input type="password" placeholder="password" ref={PasswordElement} id="password" className="outline-none bg-slate-100 p-3 rounded-md" />
                 <button className=" bg-slate-700  rounded-lg p-3 text-white uppercase hover:opacity-95" > {Loading ? 'Signing in' : 'Sign in'}</button>
+                <OAuth/>
             </form>
 
             <div className='mt-3'>

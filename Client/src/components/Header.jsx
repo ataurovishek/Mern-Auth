@@ -16,7 +16,7 @@ const Header = () => {
                 <Link to='/about'><li>About</li></Link>
                 {
                     currentUser 
-                    ? <img src={currentUser.profilePicture} className="h-10 w-10 rounded-full object-cover" alt="" /> 
+                    ? <Link to='/Profile'><img src={currentUser.profilePicture} className="h-10 w-10 rounded-full object-cover" alt="" /> </Link>
                     : <Link to='/sign-in'><li>Sign in</li></Link>
                 }
             </div>

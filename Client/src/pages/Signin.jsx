@@ -62,7 +62,7 @@ const Signin = () => {
 
     return (
         <div className="flex flex-col max-w-lg mx-auto p-5">
-            <h1 className="text-center mt-10 font-bold text-[3vw] mb-5">Sign Up</h1>
+            <h1 className="text-center mt-10 font-bold text-[3vw] mb-5">Sign In</h1>
 
             <form className="flex flex-col gap-5" onSubmit={HandleSubmit}>
                 <input type="email" placeholder="email" ref={emailElement} id="email" className="outline-none bg-slate-100 p-3 rounded-md" />

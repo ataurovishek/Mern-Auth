@@ -37,8 +37,6 @@ const Signup = () => {
                 })
             })
             const result = await res.json();
-            console.log(result)
-
             if (result.Success === false) {
                 SetLoading(false)
                 Seterror(true)
